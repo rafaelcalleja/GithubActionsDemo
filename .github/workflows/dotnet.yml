@@ -20,6 +20,7 @@ jobs:
     - name: 'Sync images'
       run: |
         df -kh
+        id
         skopeo --version
         skopeo copy docker://quay.io/linux-whitehat/no-diuid:latest oci:/tmp/image:latest
     - name: Setup .NET
