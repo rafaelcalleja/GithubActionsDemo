@@ -22,7 +22,7 @@ jobs:
         df -kh
         id
         skopeo --version
-        skopeo copy docker://quay.io/linux-whitehat/no-diuid:latest oci:/tmp/image:latest
+        skopeo copy docker://library/ubuntu:24.04 oci:/tmp/image:latest
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
