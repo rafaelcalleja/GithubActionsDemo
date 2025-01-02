@@ -13,9 +13,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: test
-      run: |
-        apt update && apt install -yq vim
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
