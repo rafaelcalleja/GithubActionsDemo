@@ -22,7 +22,6 @@ jobs:
         df -kh
         id
         env
-        export XDG_RUNTIME_DIR=/run/user/1000
         skopeo --version
         skopeo copy docker://library/ubuntu:24.04 oci:/tmp/image:latest
     - name: Setup .NET
