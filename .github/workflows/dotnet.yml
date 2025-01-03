@@ -19,6 +19,9 @@ jobs:
         version: latest
     - name: 'Sync images'
       run: |
+        sudo apt update && sudo apt install vim
+    - name: 'Sync images'
+      run: |
         df -kh
         id
         env
