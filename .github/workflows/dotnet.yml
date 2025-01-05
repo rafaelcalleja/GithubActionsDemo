@@ -14,6 +14,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - name: Run Benchmark
+      run: go test -bench . | tee output.txt
     - name: 'Set up skopeo'
       uses: warjiang/setup-skopeo@v0.1.3
       with:
