@@ -28,7 +28,6 @@ jobs:
         mkdir -p ${ROOTFS}/dev/pts && \
         mkdir -p ${ROOTFS}/sys && \
         mkdir -p ${ROOTFS}/run && \
-        sudo mount -t proc ${ROOTFS}/proc && \
         sudo mount --bind /dev ${ROOTFS}/dev && \
         sudo mount --bind /sys ${ROOTFS}/sys && \
         sudo mount --bind /run ${ROOTFS}/run && \
