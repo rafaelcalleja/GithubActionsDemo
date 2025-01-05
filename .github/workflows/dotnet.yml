@@ -18,6 +18,9 @@ jobs:
       run: |
         sudo apt-get update && sudo apt-get install -y sysbench
         sysbench cpu run | tee cpu_benchmark.txt
+        CORES=$(nproc)
+        echo "Running CPU benchmark on $CORES cores..."
+        lscpu
     - name: 'Set up skopeo'
       uses: warjiang/setup-skopeo@v0.1.3
       with:
