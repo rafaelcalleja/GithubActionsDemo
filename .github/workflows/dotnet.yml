@@ -20,7 +20,7 @@ jobs:
         version: latest
     - name: 'Sync images'
       run: |
-        sudo apt update && sudo apt install vim skopeo
+        sudo apt update && sudo apt install -yq vim skopeo
     - name: 'Sync images'
       run: |
         df -kh
