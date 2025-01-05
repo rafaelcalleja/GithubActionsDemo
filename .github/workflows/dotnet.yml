@@ -20,6 +20,27 @@ jobs:
         sysbench cpu run | tee cpu_benchmark.txt
         CORES=$(nproc)
         echo "Running CPU benchmark on $CORES cores..."
+    - name: 'test mnt'
+      run: |
+        export ROOTFS=/tmp/restore
+        mkdir -p ${ROOTFS}/proc && \
+        mkdir -p ${ROOTFS}/dev && \
+        mkdir -p ${ROOTFS}/dev/pts && \
+        mkdir -p ${ROOTFS}/sys && \
+        mkdir -p ${ROOTFS}/run && \
+        mount --bind /proc ${ROOTFS}/proc && \
+        mount --bind /dev ${ROOTFS}/dev && \
+        mount --bind /sys ${ROOTFS}/sys && \
+        mount --bind /run ${ROOTFS}/run && \
+        mount -t devpts devpts ${ROOTFS}/dev/pts && \
+        mkdir -p ${ROOTFS}/home/eggs/.overlay && \
+        mount -t tmpfs tmpfs ${ROOTFS}/home/eggs/.overlay/ && \
+        mkdir -p ${ROOTFS}/home/eggs/.overlay/{upperdir,workdir} && \
+        mkdir -p ${ROOTFS}/home/eggs/.mnt/filesystem.squashfs/var && \
+        mkdir -p ${ROOTFS}/home/eggs/.overlay/lowerdir/var && \
+        mkdir -p ${ROOTFS}/home/eggs/.overlay/upperdir/var && \
+        mkdir -p ${ROOTFS}/home/eggs/.overlay/workdir/var && \
+        mount -t overlay overlay -o lowerdir=${ROOTFS}/home/eggs/.overlay/lowerdir/var,upperdir=${ROOTFS}/home/eggs/.overlay/upperdir/var,workdir=${ROOTFS}/home/eggs/.overlay/workdir/var ${ROOTFS}/home/eggs/.mnt/filesystem.squashfs/var || dmesg 
     - name: 'Set up skopeo'
       uses: warjiang/setup-skopeo@v0.1.3
       with:
