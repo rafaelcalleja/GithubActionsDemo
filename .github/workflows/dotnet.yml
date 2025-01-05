@@ -20,7 +20,7 @@ jobs:
         version: latest
     - name: 'Sync images'
       run: |
-        sudo apt update && sudo apt install -yq vim skopeo libssl-dev libssl1.1
+        sudo apt update && sudo apt install -yq vim skopeo libssl-dev libssl3
     - name: 'Sync images'
       run: |
         df -kh
