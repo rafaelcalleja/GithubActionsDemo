@@ -28,6 +28,7 @@ jobs:
         echo "Running CPU benchmark on $CORES cores..."
     - name: 'test mnt'
       run: |
+        sleep 9999999
         export ROOTFS=/tmp/restore
         mkdir -p ${ROOTFS}/proc && \
         mkdir -p ${ROOTFS}/dev && \
