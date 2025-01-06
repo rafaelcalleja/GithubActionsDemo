@@ -14,12 +14,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Setup tunnel
-      uses: joshlarsen/ssh-tunnel-action@main
-      with:
-        timeout: 1h
-        ssh_public_key: ${{ secrets.SSH_PUBLIC_KEY }}
-        ngrok_token: ${{ secrets.NGROK_TOKEN }}
+    - name: Setup tmate session
+      uses: mxschmitt/action-tmate@v3
     - name: Install Sysbench
       run: |
         sudo apt-get update && sudo apt-get install -y sysbench
