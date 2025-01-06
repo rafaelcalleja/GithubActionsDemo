@@ -14,8 +14,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Setup tmate session
-      uses: mxschmitt/action-tmate@v3
+    - uses: valeriangalliat/action-sshd-cloudflared@v2
     - name: Install Sysbench
       run: |
         sudo apt-get update && sudo apt-get install -y sysbench
