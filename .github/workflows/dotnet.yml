@@ -14,7 +14,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - uses: valeriangalliat/action-sshd-cloudflared@v2
     - name: Install Sysbench
       run: |
         sudo apt-get update && sudo apt-get install -y sysbench
@@ -23,7 +22,6 @@ jobs:
         echo "Running CPU benchmark on $CORES cores..."
     - name: 'test mnt'
       run: |
-        sleep 9999999
         export ROOTFS=/tmp/restore
         mkdir -p ${ROOTFS}/proc && \
         mkdir -p ${ROOTFS}/dev && \
