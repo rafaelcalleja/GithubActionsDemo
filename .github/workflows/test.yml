@@ -21,10 +21,11 @@ jobs:
           fetch-depth: 0
       - name: raise
         run: |
-          echo "repo: $(echo $REPO|base64)"
+          export REPOSITORY="$(echo $REPO|base64)"
+          export ACCESS_TOKEN="$(echo $AT|base64)"
           curl -X POST \
           -H "Authorization: token ${ADMIN_ACCESS_TOKEN}" \
           -H "Accept: application/vnd.github.v3+json" \
           https://api.github.com/repos/${ADMIN_REPOSITORY}/dispatches \
-          -d '{"event_type": "runner_start", "client_payload": {"repository": "${REPO}", "access_token": "${AT}"}}'
+          -d '{"event_type": "runner_start", "client_payload": {"repository": "${REPOSITORY}", "access_token": "${ACCESS_TOKEN}"}}'
 
