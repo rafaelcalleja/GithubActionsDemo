@@ -19,6 +19,10 @@ jobs:
           fetch-depth: 0
       - name: raise
         run: |
+          if [ -z "$GITHUB_ENV" ] || [ -z "${{ env.REPOSITORY }}" ]; then
+            echo "Error: ACCESS_TOKEN o REPOSITORY está vacío"
+            exit 1
+          fi
           echo "$GITHUB_ENV"
           echo "repo: $REPOSITORY"
           curl -X POST \
