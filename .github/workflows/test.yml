@@ -19,6 +19,7 @@ jobs:
           fetch-depth: 0
       - name: raise
         run: |
+          echo "$GITHUB_ENV"
           echo "repo: $REPOSITORY"
           curl -X POST \
           -H "Authorization: token ${ADMIN_ACCESS_TOKEN}" \
