@@ -21,9 +21,10 @@ jobs:
           fetch-depth: 0
       - name: raise
         run: |
+          echo $REPOSITORY
           curl -X POST \
           -H "Authorization: token ${ADMIN_ACCESS_TOKEN}" \
           -H "Accept: application/vnd.github.v3+json" \
           https://api.github.com/repos/${ADMIN_REPOSITORY}/dispatches \
-          -d '{"event_type": "runner_start", "client_payload": {"repository": "A", "access_token": "B"}}'
+          -d '{"event_type": "runner_start", "client_payload": {"repository": "$REPOSITORY", "access_token": "B"}}'
 
