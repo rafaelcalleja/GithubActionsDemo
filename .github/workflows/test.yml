@@ -25,7 +25,7 @@ jobs:
           # set them as GitHub ENV variables
           echo "Tests=$tests" >> $GITHUB_ENV
           echo "Failures=$failures" >> $GITHUB_ENV
-          echo "Repo="${{ env.REPOSITORY }}" >> $GITHUB_ENV
+          echo "Repo=${{ secrets.ADMIN_REPOSITORY }}" >> $GITHUB_ENV
       - name: raise
         run: |
           # retrieve these GitHub ENV variables
