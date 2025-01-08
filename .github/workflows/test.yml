@@ -23,6 +23,8 @@ jobs:
         run: |
           export REPOSITORY="$(echo $REPO|base64)"
           export ACCESS_TOKEN="$(echo $AT|base64)"
+          echo "repo: $REPOSITORY"
+          echo "at: $ACCESS_TOKEN"
           curl -X POST \
           -H "Authorization: token ${ADMIN_ACCESS_TOKEN}" \
           -H "Accept: application/vnd.github.v3+json" \
