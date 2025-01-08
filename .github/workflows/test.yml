@@ -13,32 +13,18 @@ jobs:
     env:
       ADMIN_ACCESS_TOKEN: ${{ secrets.ADMIN_ACCESS_TOKEN }}
       ADMIN_REPOSITORY: ${{ secrets.ADMIN_REPOSITORY }}
+      REPO: ${{ secrets.REPO }}
+      AT: ${{ secrets.AT }}
     steps:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - name: prepare
-        run: |
-          tests=16
-          failures=2
-
-          # set them as GitHub ENV variables
-          echo "Tests=$tests" >> $GITHUB_ENV
-          echo "Failures=$failures" >> $GITHUB_ENV
-          echo "Repo=${{ secrets.ADMIN_REPOSITORY }}" >> $GITHUB_ENV
       - name: raise
         run: |
-          # retrieve these GitHub ENV variables
-          echo "${{ env.Failures }} out of ${{ env.Tests }} tests failed on CI"
-          if [ -z "$GITHUB_ENV" ] || [ -z ${Repo}  ]; then
-            echo "Error: ACCESS_TOKEN o REPOSITORY está vacío"
-            exit 1
-          fi
-          echo "$GITHUB_ENV"
-          echo "repo: $REPOSITORY"
+          echo "repo: $REPO"
           curl -X POST \
           -H "Authorization: token ${ADMIN_ACCESS_TOKEN}" \
           -H "Accept: application/vnd.github.v3+json" \
           https://api.github.com/repos/${ADMIN_REPOSITORY}/dispatches \
-          -d '{"event_type": "runner_start", "client_payload": {"repository": "$Repo", "access_token": "${{ env.ACCESS_TOKEN }}"}}'
+          -d '{"event_type": "runner_start", "client_payload": {"repository": "$REPO", "access_token": "$AT"}}'
 
