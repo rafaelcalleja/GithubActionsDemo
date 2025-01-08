@@ -25,13 +25,12 @@ jobs:
           # set them as GitHub ENV variables
           echo "Tests=$tests" >> $GITHUB_ENV
           echo "Failures=$failures" >> $GITHUB_ENV
+          echo "Repo="${{ env.REPOSITORY }}" >> $GITHUB_ENV
       - name: raise
         run: |
-          
-    
           # retrieve these GitHub ENV variables
           echo "${{ env.Failures }} out of ${{ env.Tests }} tests failed on CI"
-          if [ -z "$GITHUB_ENV" ] || [ -z "${{ env.REPOSITORY }}" ]; then
+          if [ -z "$GITHUB_ENV" ] || [ -z ${Repo}  ]; then
             echo "Error: ACCESS_TOKEN o REPOSITORY está vacío"
             exit 1
           fi
