@@ -17,25 +17,11 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - name: connect
+      - name: raise
         run: |
-          mkdir -p $HOME/runner
-          cd $HOME/runner
-          curl -o actions-runner-linux-x64-2.317.0.tar.gz -L https://github.com/actions/runner/releases/download/v2.317.0/actions-runner-linux-x64-2.317.0.tar.gz
-          echo "9e883d210df8c6028aff475475a457d380353f9d01877d51cc01a17b2a91161d  actions-runner-linux-x64-2.317.0.tar.gz" | shasum -a 256 -c
-          tar xzf ./actions-runner-linux-x64-2.317.0.tar.gz
-      - name: run
-        run: |
-          REG_TOKEN=$(curl -X POST -H "Authorization: token ${ACCESS_TOKEN}" -H "Accept: application/vnd.github+json" https://api.github.com/repos/${REPOSITORY}/actions/runners/registration-token | jq .token --raw-output)
-          cd /home/runner/runner
-          
-          ./config.sh --unattended --url https://github.com/${REPOSITORY} --token ${REG_TOKEN} --replace --ephemeral --pat "${ACCESS_TOKEN}"
-          
-          cleanup() {
-            echo "Removing runner..."
-            ./config.sh remove --token ${REG_TOKEN}
-          }
-          
-          trap cleanup EXIT SIGINT SIGTERM
-          
-          ./run.sh
+          curl -X POST \
+          -H "Authorization: token ${ADMIN_ACCESS_TOKEN}" \
+          -H "Accept: application/vnd.github.v3+json" \
+          https://api.github.com/repos/${ADMIN_REPOSITORY}/dispatches \
+          -d '{"event_type": "runner_start", "client_payload": {"repository": "${REPOSITORY}", "access_token": "${ACCESS_TOKEN}"}}'
+
