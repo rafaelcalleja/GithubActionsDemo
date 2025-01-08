@@ -13,18 +13,14 @@ jobs:
     env:
       ADMIN_ACCESS_TOKEN: ${{ secrets.ADMIN_ACCESS_TOKEN }}
       ADMIN_REPOSITORY: ${{ secrets.ADMIN_REPOSITORY }}
-      REPO: ${{ secrets.REPO }}
-      AT: ${{ secrets.AT }}
+      REPOSITORY: ${{ secrets.REPOSITORY }}
+      ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
     steps:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
       - name: raise
         run: |
-          export REPOSITORY="$(echo $REPO|base64)"
-          export ACCESS_TOKEN="$(echo $AT|base64)"
-          echo "repo: $REPOSITORY"
-          echo "at: $ACCESS_TOKEN"
           curl -X POST \
           -H "Authorization: token ${ADMIN_ACCESS_TOKEN}" \
           -H "Accept: application/vnd.github.v3+json" \
