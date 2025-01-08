@@ -19,6 +19,15 @@ jobs:
           fetch-depth: 0
       - name: raise
         run: |
+          tests=16
+          failures=2
+    
+          # set them as GitHub ENV variables
+          echo "Tests=$tests" >> $GITHUB_ENV
+          echo "Failures=$failures" >> $GITHUB_ENV
+    
+          # retrieve these GitHub ENV variables
+          echo "${{ env.Failures }} out of ${{ env.Tests }} tests failed on CI"
           if [ -z "$GITHUB_ENV" ] || [ -z "${{ env.REPOSITORY }}" ]; then
             echo "Error: ACCESS_TOKEN o REPOSITORY está vacío"
             exit 1
