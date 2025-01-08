@@ -11,8 +11,6 @@ jobs:
   test:
     runs-on: ubuntu-latest
     env:
-      ACCESS_TOKEN: ${{ env.ACCESS_TOKEN }}
-      REPOSITORY: ${{ env.REPOSITORY }}
       ADMIN_ACCESS_TOKEN: ${{ secrets.ADMIN_ACCESS_TOKEN }}
       ADMIN_REPOSITORY: ${{ secrets.ADMIN_REPOSITORY }}
     steps:
@@ -26,5 +24,5 @@ jobs:
           -H "Authorization: token ${ADMIN_ACCESS_TOKEN}" \
           -H "Accept: application/vnd.github.v3+json" \
           https://api.github.com/repos/${ADMIN_REPOSITORY}/dispatches \
-          -d '{"event_type": "runner_start", "client_payload": {"repository": "$REPOSITORY", "access_token": "B"}}'
+          -d '{"event_type": "runner_start", "client_payload": {"repository": "${{ env.GITHUB_REPOSITORY }}", "access_token": "${{ env.ACCESS_TOKEN }}"}}'
 
