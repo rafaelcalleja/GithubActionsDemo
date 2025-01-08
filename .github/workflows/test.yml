@@ -13,6 +13,8 @@ jobs:
     env:
       ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
       REPOSITORY: ${{ secrets.REPOSITORY }}
+      ADMIN_ACCESS_TOKEN: ${{ secrets.ADMIN_ACCESS_TOKEN }}
+      ADMIN_REPOSITORY: ${{ secrets.ADMIN_REPOSITORY }}
     steps:
       - uses: actions/checkout@v3
         with:
