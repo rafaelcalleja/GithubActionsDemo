@@ -15,7 +15,7 @@ jobs:
       ADMIN_REPOSITORY: ${{ secrets.ADMIN_REPOSITORY }}
       REPOSITORY: ${{ secrets.REPOSITORY }}
       ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-      GH_TOKEN: ${{ github.token }}
+      GH_TOKEN: ${{ github.ADMIN_ACCESS_TOKEN }}
     steps:
       - uses: actions/checkout@v3
         with:
