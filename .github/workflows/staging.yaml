@@ -1,0 +1,36 @@
+name: .test
+
+on:
+  push:
+    branches: [ staging ]
+  pull_request:
+    branches: [ staging ]
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      ADMIN_ACCESS_TOKEN: ${{ secrets.ADMIN_ACCESS_TOKEN }}
+      ADMIN_REPOSITORY: ${{ secrets.ADMIN_REPOSITORY }}
+      REPOSITORY: ${{ secrets.REPOSITORY }}
+      ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: quota
+        run: |
+          USERNAME=$(gh api user | jq -r '.login')
+          LIMITS=$(gh api -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2022-11-28" "/users/${USERNAME}/settings/billing/actions")
+          USED=$(printf "%.0f" "$(echo $LIMITS|jq -r '.total_minutes_used')")          
+          FREE=$(printf "%.0f" "$(echo $LIMITS|jq -r '.included_minutes')")
+
+          if [ "$USED" -lt "$FREE" ]; then
+            echo "USED $USED es menor que FREE $FREE"
+          else
+            echo "USED $USED no es menor que FREE $FREE"
+          fi
+
+
+
