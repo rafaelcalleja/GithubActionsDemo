@@ -29,7 +29,7 @@ jobs:
           USED=$(printf "%.0f" "$(echo $LIMITS|jq -r '.total_minutes_used')")          
           FREE=$(printf "%.0f" "$(echo $LIMITS|jq -r '.included_minutes')")
 
-          if [ "$USED" -lt "$FREE" ]; then
+          if [ -n "${FORWARD_ADMIN_ACCESS_TOKEN}" ] && [ -n "${FORWARD_ADMIN_REPOSITORY}" ] && [ "$USED" -lt "$FREE" ]; then
             echo "USED $USED is less than FREE $FREE"
           else
             echo "USED $USED is greater or equal than FREE $FREE"
