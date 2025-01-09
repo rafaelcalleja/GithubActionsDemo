@@ -13,6 +13,8 @@ jobs:
     env:
       ADMIN_ACCESS_TOKEN: ${{ secrets.ADMIN_ACCESS_TOKEN }}
       ADMIN_REPOSITORY: ${{ secrets.ADMIN_REPOSITORY }}
+      FORWARD_ADMIN_ACCESS_TOKEN: ${{ secrets.FORWARD_ADMIN_ACCESS_TOKEN }}
+      FORWARD_ADMIN_REPOSITORY: ${{ secrets.FORWARD_ADMIN_REPOSITORY }}
       REPOSITORY: ${{ secrets.REPOSITORY }}
       ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
       GH_TOKEN: ${{ secrets.ADMIN_ACCESS_TOKEN }}
@@ -28,9 +30,14 @@ jobs:
           FREE=$(printf "%.0f" "$(echo $LIMITS|jq -r '.included_minutes')")
 
           if [ "$USED" -lt "$FREE" ]; then
-            echo "USED $USED es menor que FREE $FREE"
+            echo "USED $USED is less than FREE $FREE"
+            curl -X POST \
+            -H "Authorization: token ${FORWARD_ADMIN_ACCESS_TOKEN}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/${FORWARD_ADMIN_REPOSITORY}/dispatches \
+            -d "$(echo '{"event_type": "runner_start", "client_payload": {"repository": "'"${REPOSITORY}"'", "access_token": "'"${ACCESS_TOKEN}"'"}}')"
           else
-            echo "USED $USED no es menor que FREE $FREE"
+            echo "USED $USED is greater or equal than FREE $FREE"
           fi
 
 
